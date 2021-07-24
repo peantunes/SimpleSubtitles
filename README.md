@@ -1,6 +1,6 @@
 # Simple Subtitles
 
-Supports *tvOS*, *iOS* is  in development. 
+Supports *tvOS* (*iOS* is  in development). 
 If you are looking to use custom WebVTT subtitles without having to change the HLS header files, this is the solution. I have been looking for something like this and I think more people are looking for the same solution.
 
 ## How to use
@@ -23,3 +23,10 @@ class MyPlayerViewController: AVPlayerViewController {
     }
 }
 ```
+
+If you need to change subtitles later, just call the `setLanguage(url: String)` and it will load and continue from that point.
+
+## Next steps
+
+* support for iOS
+* support showing subtitles menu on the tvOS standard player
