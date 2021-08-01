@@ -7,15 +7,17 @@ protocol FileLoader: AnyObject {
 class SubtitlesInteractor: SubtitlesInteractorProtocol {
     private let parser: SubtitlesParserProtocol
     private let fileLoader: FileLoader
+    private let options: SimpleSubtitlesOptions
     
     private var subtitleInformation: SubtitleInformation?
     private var previousIndex: Int = 0
     private var previousSection: SubtitleInformation.Section?
     private var previousTime: Double = 0
     
-    init(parser: SubtitlesParserProtocol, fileLoader: FileLoader) {
+    init(parser: SubtitlesParserProtocol, fileLoader: FileLoader, options: SimpleSubtitlesOptions) {
         self.parser = parser
         self.fileLoader = fileLoader
+        self.options = options
     }
     
     func setSubtitleFile(url: String) {
@@ -27,7 +29,7 @@ class SubtitlesInteractor: SubtitlesInteractorProtocol {
     }
     
     func sectionFromTime(_ time: Double) -> SubtitleInformation.Section? {
-        let currentSeconds = time
+        let currentSeconds = time + options.timeAdjustForContent
         guard var searchSections = subtitleInformation?.sections,
               !(time >= previousSection?.startTime ?? 0 && time < previousSection?.endTime ?? 0) else {
             return previousSection

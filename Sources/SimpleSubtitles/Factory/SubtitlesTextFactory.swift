@@ -11,9 +11,16 @@ class FileLoaderDefault: FileLoader {
     }
 }
 
+public struct SimpleSubtitlesOptions {
+    let timeAdjustForContent: Double
+    public init(timeAdjustForContent: Double = 0) {
+        self.timeAdjustForContent = timeAdjustForContent
+    }
+}
+
 public struct SimpleSubtitles {
-    public static func make(player: AVPlayer, view: UIView) -> SubtitlesController {
-        let interactor = SubtitlesInteractor(parser: WebVTTParser(), fileLoader: FileLoaderDefault())
+    public static func make(player: AVPlayer, view: UIView, options: SimpleSubtitlesOptions = SimpleSubtitlesOptions()) -> SubtitlesController {
+        let interactor = SubtitlesInteractor(parser: WebVTTParser(), fileLoader: FileLoaderDefault(), options: options)
         let presenter = SubtitlesControlPresenter(player: player, interactor: interactor)
         let subtitleView = SubtitlesTextView(presenter: presenter)
         presenter.view = subtitleView
