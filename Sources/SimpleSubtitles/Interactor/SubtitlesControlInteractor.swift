@@ -31,23 +31,24 @@ class SubtitlesInteractor: SubtitlesInteractorProtocol {
     func sectionFromTime(_ time: Double) -> SubtitleInformation.Section? {
         let currentSeconds = time + options.timeAdjustForContent
         guard var searchSections = subtitleInformation?.sections,
-              !(time >= previousSection?.startTime ?? 0 && time < previousSection?.endTime ?? 0) else {
+              !(currentSeconds >= previousSection?.startTime ?? 0 && currentSeconds < previousSection?.endTime ?? 0) else {
+//            print("Previous section", currentSeconds, previousSection)
             return previousSection
         }
         
         if currentSeconds > previousTime,
            let nextSection = searchSections[safe: previousIndex + 1],
-           nextSection.startTime >= time {
+           nextSection.startTime >= currentSeconds {
             
         }
         
         if let previousSection = previousSection,
-           time >= previousSection.endTime {
+           currentSeconds >= previousSection.endTime {
             searchSections.removeSubrange(0..<previousIndex)
         } else {
             previousIndex = 0
         }
-        guard let sectionIndex = searchSections.firstIndex(where: { time >= $0.startTime && time < $0.endTime }),
+        guard let sectionIndex = searchSections.firstIndex(where: { currentSeconds >= $0.startTime && currentSeconds < $0.endTime }),
               let currentSection = searchSections[safe: sectionIndex] else {
             
             return nil
