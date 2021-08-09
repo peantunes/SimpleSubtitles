@@ -1,6 +1,6 @@
 import Foundation
 
-protocol FileLoader: AnyObject {
+public protocol FileLoader: AnyObject {
     func loadStringFile(url: String) throws -> String?
 }
 

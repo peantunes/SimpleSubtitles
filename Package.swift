@@ -19,7 +19,7 @@ let package = Package(
             name: "SimpleSubtitles",
             dependencies: []),
         .testTarget(
-            name: "subtitles-webvttTests",
+            name: "SimpleSubtitles-Test",
             dependencies: ["SimpleSubtitles"]),
     ]
 )

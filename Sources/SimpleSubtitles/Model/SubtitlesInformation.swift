@@ -1,12 +1,22 @@
 import AVFoundation
 
-struct SubtitleInformation: Equatable {
-    struct Section: Equatable {
-        let startTime: TimeInterval
-        let endTime: TimeInterval
+public struct SubtitleInformation: Equatable {
+    public struct Section: Equatable {
+        public let startTime: TimeInterval
+        public let endTime: TimeInterval
         
-        let lines: String
+        public let lines: String
+        
+        public init(startTime: TimeInterval, endTime: TimeInterval, lines: String) {
+            self.startTime = startTime
+            self.endTime = endTime
+            self.lines = lines
+        }
     }
     
-    let sections: [Section]
+    public let sections: [Section]
+    
+    public init(sections: [SubtitleInformation.Section]) {
+        self.sections = sections
+    }
 }

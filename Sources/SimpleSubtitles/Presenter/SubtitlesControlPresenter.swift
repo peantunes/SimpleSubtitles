@@ -50,7 +50,12 @@ class SubtitlesControlPresenter: SubtitlesController {
     
     private func initialiserObserver() {
         let interval = CMTimeMakeWithSeconds(0.01, preferredTimescale: Int32(NSEC_PER_SEC))
-        timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: timeUpdate)
+        timeObserver = player?.addPeriodicTimeObserver(
+            forInterval: interval,
+            queue: DispatchQueue.main,
+            using: {[weak self] time in
+            self?.timeUpdate(time)
+        })
     }
 }
 

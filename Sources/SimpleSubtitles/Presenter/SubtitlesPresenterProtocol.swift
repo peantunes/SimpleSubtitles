@@ -5,22 +5,26 @@ public protocol SubtitlesController: AnyObject {
     func turnOff()
 }
 
-protocol SubtitlesControlViewProtocol: AnyObject {
+public protocol SubtitlesControlViewProtocol: AnyObject {
     func perform(update: SubtitlesControl.Update)
 }
 
-enum SubtitlesControl {
-    enum Update {
+public enum SubtitlesControl {
+    public enum Update: Equatable {
         case showSubtitles(ViewModel)
         case hideSubtitles
     }
     
-    struct ViewModel: Equatable {
-        let lines: String
+    public struct ViewModel: Equatable {
+        public let lines: String
+        
+        public init(lines: String) {
+            self.lines = lines
+        }
     }
 }
 
-protocol PlayerControlProtocol: AnyObject {
+public protocol PlayerControlProtocol: AnyObject {
     func addPeriodicTimeObserver(forInterval interval: CMTime, queue: DispatchQueue?, using block: @escaping (CMTime) -> Void) -> Any
     func removeTimeObserver(_ observer: Any)
 }
