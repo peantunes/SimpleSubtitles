@@ -1,4 +1,5 @@
 import Foundation
+import SubtitlesInterface
 
 public protocol FileLoader: AnyObject {
     func loadStringFile(url: String) throws -> String?

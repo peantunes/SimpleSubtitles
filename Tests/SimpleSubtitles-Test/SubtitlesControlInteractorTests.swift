@@ -1,4 +1,5 @@
 import XCTest
+import SubtitlesInterface
 @testable import SimpleSubtitles
 
 final class SubtitlesControlInteractorTests: XCTestCase {

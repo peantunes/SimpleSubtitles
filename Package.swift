@@ -17,9 +17,12 @@ let package = Package(
     targets: [
         .target(
             name: "SimpleSubtitles",
+            dependencies: ["SubtitlesInterface"]),
+        .target(
+            name: "SubtitlesInterface",
             dependencies: []),
         .testTarget(
             name: "SimpleSubtitles-Test",
-            dependencies: ["SimpleSubtitles"]),
+            dependencies: ["SimpleSubtitles", "SubtitlesInterface"]),
     ]
 )

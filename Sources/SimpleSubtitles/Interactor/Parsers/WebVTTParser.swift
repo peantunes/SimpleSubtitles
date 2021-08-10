@@ -1,4 +1,5 @@
 import Foundation
+import SubtitlesInterface
 
 class WebVTTParser: SubtitlesParserProtocol {
     private static let regexPattern = #"(?m)^(\d{1,2}:\d{2}:\d{2}\.\d+) +--> +(\d{1,2}:\d{2}:\d{2}\.\d+).*[\r\n]+\s*(?s)((?:(?!\r?\n\r?\n).)*)"#

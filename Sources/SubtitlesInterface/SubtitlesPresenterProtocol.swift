@@ -1,10 +1,5 @@
 import CoreMedia
 
-public protocol SubtitlesController: AnyObject {
-    func setLanguage(url: String)
-    func turnOff()
-}
-
 public protocol SubtitlesControlViewProtocol: AnyObject {
     func perform(update: SubtitlesControl.Update)
 }

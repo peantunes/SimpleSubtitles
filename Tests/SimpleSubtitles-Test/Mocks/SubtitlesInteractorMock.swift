@@ -1,5 +1,6 @@
 import Foundation
 import SimpleSubtitles
+import SubtitlesInterface
 
 class SubtitlesInteractorMock: SubtitlesInteractorProtocol {
     

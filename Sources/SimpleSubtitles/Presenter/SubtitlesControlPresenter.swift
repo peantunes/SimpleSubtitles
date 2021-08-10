@@ -1,4 +1,10 @@
 import CoreMedia
+import SubtitlesInterface
+
+public protocol SubtitlesController: AnyObject {
+    func setLanguage(url: String)
+    func turnOff()
+}
 
 class SubtitlesControlPresenter: SubtitlesController {
     private let interactor: SubtitlesInteractorProtocol

@@ -1,4 +1,5 @@
 import UIKit
+import SubtitlesInterface
 
 class SubtitlesTextView: UIView {
     private let presenter: SubtitlesController

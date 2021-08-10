@@ -1,5 +1,6 @@
 import UIKit
 import AVFoundation
+import SubtitlesInterface
 
 class FileLoaderDefault: FileLoader {
     func loadStringFile(url: String) throws -> String? {

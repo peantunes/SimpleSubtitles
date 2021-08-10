@@ -1,5 +1,6 @@
 import Foundation
 import SimpleSubtitles
+import SubtitlesInterface
 
 class SubtitlesParserMock: SubtitlesParserProtocol {
     enum Event: Equatable {

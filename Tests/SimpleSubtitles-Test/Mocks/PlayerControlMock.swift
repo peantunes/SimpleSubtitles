@@ -1,5 +1,6 @@
 import CoreMedia
 import SimpleSubtitles
+import SubtitlesInterface
 
 class PlayerControlMock: PlayerControlProtocol {
     enum Event: Equatable {
