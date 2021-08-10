@@ -14,6 +14,8 @@ class SubtitlesInteractor: SubtitlesInteractorProtocol {
     private var previousSection: SubtitleInformation.Section?
     private var previousTime: Double = 0
     
+    private var listActiveSections: [SubtitleInformation.Section] = []
+    
     init(parser: SubtitlesParserProtocol, fileLoader: FileLoader, options: SimpleSubtitlesOptions) {
         self.parser = parser
         self.fileLoader = fileLoader
@@ -28,6 +30,7 @@ class SubtitlesInteractor: SubtitlesInteractorProtocol {
         subtitleInformation = parser.parse(string: text)
     }
     
+    //This was changed to use the other method, but I will keep the logic
     func sectionFromTime(_ time: Double) -> SubtitleInformation.Section? {
         let currentSeconds = time + options.timeAdjustForContent
         guard var searchSections = subtitleInformation?.sections,
@@ -57,6 +60,14 @@ class SubtitlesInteractor: SubtitlesInteractorProtocol {
         previousSection = currentSection
         return currentSection
         
+    }
+    
+    func sectionsFromTime(_ time: Double) -> [SubtitleInformation.Section] {
+        let currentSeconds = time + options.timeAdjustForContent
+        
+        let searchSections = subtitleInformation?.sections ?? []
+        
+        return searchSections.filter( { currentSeconds >= $0.startTime && currentSeconds < $0.endTime } )
     }
 }
 

@@ -6,7 +6,7 @@ class SubtitlesControlPresenter: SubtitlesController {
     private var timeObserver:Any? = nil
     
     weak var view: SubtitlesControlViewProtocol?
-    private var previousSection: SubtitleInformation.Section?
+    private var previousSections: [SubtitleInformation.Section] = []
     private var isOn: Bool = true
     
     init(player: PlayerControlProtocol, interactor: SubtitlesInteractorProtocol) {
@@ -37,19 +37,20 @@ class SubtitlesControlPresenter: SubtitlesController {
             return
         }
         
-        guard let section = interactor.sectionFromTime(time.seconds) else {
+        let sections = interactor.sectionsFromTime(time.seconds)
+        guard !sections.isEmpty else {
             view?.perform(update: .hideSubtitles)
             return
         }
-        if section != previousSection {
-            view?.perform(update: .showSubtitles(SubtitlesControl.ViewModel(section)))
+        if sections != previousSections {
+            view?.perform(update: .showSubtitles(SubtitlesControl.ViewModel(sections)))
         }
     }
     
     // MARK: - private methods
     
     private func initialiserObserver() {
-        let interval = CMTimeMakeWithSeconds(0.01, preferredTimescale: Int32(NSEC_PER_SEC))
+        let interval = CMTimeMakeWithSeconds(0.1, preferredTimescale: Int32(NSEC_PER_SEC))
         timeObserver = player?.addPeriodicTimeObserver(
             forInterval: interval,
             queue: DispatchQueue.main,
@@ -60,7 +61,7 @@ class SubtitlesControlPresenter: SubtitlesController {
 }
 
 extension SubtitlesControl.ViewModel {
-    init(_ section: SubtitleInformation.Section) {
-        self.init(lines: section.lines)
+    init(_ sections: [SubtitleInformation.Section]) {
+        self.init(lines: sections.map(\.lines).joined(separator: "\n"))
     }
 }

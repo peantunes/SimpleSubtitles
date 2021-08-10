@@ -25,7 +25,7 @@ final class SubtitlesPresenterTests: XCTestCase {
     }
     
     func testPlayerCallsTimeUpdate() {
-        interactorMock.stubSection = .init(startTime: 0, endTime: 10, lines: "123")
+        interactorMock.stubSections = [.init(startTime: 0, endTime: 10, lines: "123")]
         playerMock.mockBlock(time: .zero)
         
         XCTAssertEqual(viewMock.logs, [.showSubtitles(.init(lines: "123"))])
@@ -38,11 +38,21 @@ final class SubtitlesPresenterTests: XCTestCase {
     }
     
     func testTimeUpdateWithSection() {
-        interactorMock.stubSection = .init(startTime: 0, endTime: 10, lines: "My Lines")
+        interactorMock.stubSections = [.init(startTime: 0, endTime: 10, lines: "My Lines")]
         
         sut.timeUpdate(.withSeconds(3))
         
         XCTAssertEqual(viewMock.logs, [.showSubtitles(.init(lines: "My Lines"))])
+    }
+    
+    func testTimeUpdateWithMultipleSections() {
+        interactorMock.stubSections = [.init(startTime: 0, endTime: 10, lines: "My First line"),
+                                       .init(startTime: 0, endTime: 10, lines: "My Second line"),
+                                       .init(startTime: 0, endTime: 10, lines: "My Third line")]
+        
+        sut.timeUpdate(.withSeconds(3))
+        
+        XCTAssertEqual(viewMock.logs, [.showSubtitles(.init(lines: "My First line\nMy Second line\nMy Third line"))])
     }
     
     func testTimeUpdateHideSubtitlesWhenNoSectionFound() {
@@ -70,14 +80,14 @@ final class SubtitlesPresenterTests: XCTestCase {
     }
     
     func testSetLanguageAfterTurnedOffWillTurnOnSubtitles() {
-        interactorMock.stubSection = .init(startTime: 0, endTime: 10, lines: "123")
+        interactorMock.stubSections = [.init(startTime: 0, endTime: 10, lines: "123")]
         sut.turnOff()
         
         sut.setLanguage(url: "MyFile")
         sut.timeUpdate(.withSeconds(1))
         
         XCTAssertEqual(viewMock.logs, [.hideSubtitles, .showSubtitles(.init(lines: "123"))])
-        XCTAssertEqual(interactorMock.logs, [.setSubtitleFile(url: "MyFile"), .sectionFromTime(1)])
+        XCTAssertEqual(interactorMock.logs, [.setSubtitleFile(url: "MyFile"), .sectionsFromTime(1)])
     }
     
     func testWhenRemoveInstanceItCallsRemoveTimeObserver() {
