@@ -7,7 +7,7 @@ If you are looking to use custom WebVTT subtitles without having to change the H
 
 Because it is still in development for iOS, I am able to test it very well for Apple TV.
 
-[Top menu with the Subtitles menu](Documentation/images/top_menu.jpg)
+![Top menu with the Subtitles menu](Documentation/images/top_menu.jpg)
 
 If you want to add support to the AppleTV menu use the sample below:
 
