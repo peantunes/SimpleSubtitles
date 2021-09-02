@@ -16,10 +16,13 @@ class FileLoaderDefault: FileLoader {
 public struct SimpleSubtitlesOptions {
     let timeAdjustForContent: Double
     let languagesAvailable: [SubtitleLanguage]
+    let defaultLanguage: SubtitleLanguage?
     public init(timeAdjustForContent: Double = 0,
-                languagesAvailable: [SubtitleLanguage] = []) {
+                languagesAvailable: [SubtitleLanguage] = [],
+                defaultLanguage: SubtitleLanguage? = nil) {
         self.timeAdjustForContent = timeAdjustForContent
         self.languagesAvailable = languagesAvailable
+        self.defaultLanguage = defaultLanguage
     }
 }
 
@@ -56,8 +59,11 @@ public struct SimpleSubtitles {
             ])
         }
         if !options.languagesAvailable.isEmpty {
-            let subtitleSelection = SubtitleSelectionViewController(interactor: interactor, languages: options.languagesAvailable)
+            let subtitleSelection = SubtitleSelectionViewController(interactor: interactor, languages: options.languagesAvailable, defaultLanguage: options.defaultLanguage)
             subtitleSelection.title = NSLocalizedString("subtitles_title", bundle: .module, comment: "Subtitles title for the menu on tvOS")
+            if let defaultLanguage = options.defaultLanguage {
+                presenter.setLanguage(url: defaultLanguage.url)
+            }
             
             #if os(tvOS)
             viewController.customInfoViewController = subtitleSelection

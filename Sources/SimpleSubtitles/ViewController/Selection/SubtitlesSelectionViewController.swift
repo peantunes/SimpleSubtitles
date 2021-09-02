@@ -5,13 +5,17 @@ class SubtitleSelectionViewController: UICollectionViewController {
     private let interactor: SubtitlesInteractorProtocol
     private let languages: [SubtitleLanguage]
     
-    init(interactor: SubtitlesInteractorProtocol, languages: [SubtitleLanguage]) {
+    init(interactor: SubtitlesInteractorProtocol, languages: [SubtitleLanguage], defaultLanguage: SubtitleLanguage? = nil) {
         self.interactor = interactor
         self.languages = languages
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         flowLayout.itemSize = CGSize(width: 200, height: 60)
         super.init(collectionViewLayout: flowLayout)
+        if let defaultLanguage = defaultLanguage,
+           let index = languages.firstIndex(where: { $0.id == defaultLanguage.id}){
+            selectedIndex = index
+        }
     }
     
     required init?(coder: NSCoder) {
