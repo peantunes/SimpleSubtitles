@@ -1,8 +1,21 @@
 import CoreMedia
 import SubtitlesInterface
 
+public struct SubtitleLanguage: Identifiable {
+    public let id: String
+    public let label: String
+    public let url: String
+    
+    public init(id: String, label: String, url: String) {
+        self.id = id
+        self.label = label
+        self.url = url
+    }
+}
+
 public protocol SubtitlesController: AnyObject {
     func setLanguage(url: String)
+    func setAvailableLanguages(languages: [SubtitleLanguage], defaultLanguageID: String?)
     func turnOff()
 }
 
@@ -10,6 +23,9 @@ class SubtitlesControlPresenter: SubtitlesController {
     private let interactor: SubtitlesInteractorProtocol
     private weak var player: PlayerControlProtocol?
     private var timeObserver:Any? = nil
+    
+    private var availableLanguages: [SubtitleLanguage] = []
+    private var currentLanguage: SubtitleLanguage? = nil
     
     weak var view: SubtitlesControlViewProtocol?
     private var previousSections: [SubtitleInformation.Section] = []
@@ -31,6 +47,11 @@ class SubtitlesControlPresenter: SubtitlesController {
     func setLanguage(url: String) {
         interactor.setSubtitleFile(url: url)
         isOn = true
+    }
+    
+    func setAvailableLanguages(languages: [SubtitleLanguage], defaultLanguageID: String? = nil) {
+        availableLanguages = languages
+        currentLanguage = languages.first { $0.id == defaultLanguageID }
     }
     
     func turnOff() {

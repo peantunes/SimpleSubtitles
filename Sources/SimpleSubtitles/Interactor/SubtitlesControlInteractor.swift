@@ -31,6 +31,10 @@ class SubtitlesInteractor: SubtitlesInteractorProtocol {
         subtitleInformation = parser.parse(string: text)
     }
     
+    func removeSubtitles() {
+        subtitleInformation = nil
+    }
+    
     //This was changed to use the other method, but I will keep the logic
     func sectionFromTime(_ time: Double) -> SubtitleInformation.Section? {
         let currentSeconds = time + options.timeAdjustForContent
