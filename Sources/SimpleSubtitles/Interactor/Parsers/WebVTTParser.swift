@@ -2,7 +2,7 @@ import Foundation
 import SubtitlesInterface
 
 class WebVTTParser: SubtitlesParserProtocol {
-    private static let regexPattern = #"(?m)^(\d{1,2}:\d{2}:\d{2}\.\d+) +--> +(\d{1,2}:\d{2}:\d{2}\.\d+).*[\r\n]+\s*(?s)((?:(?!\r?\n\r?\n).)*)"#
+    private static let regexPattern = #"(?m)^((\d{1,2}:)?\d{2}:\d{2}\.\d+) +--> +((\d{1,2}:)?\d{2}:\d{2}\.\d+).*[\r\n]+\s*(?s)((?:(?!\r?\n\r?\n).)*)"#
     private static let regexPattern2 = #"([0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]+)"#
     
     func parse(string: String) -> SubtitleInformation? {
@@ -19,9 +19,9 @@ class WebVTTParser: SubtitlesParserProtocol {
             if match.numberOfRanges >= 3,
                let timeStartRange = Range(match.range(at: 1),
                                      in: string),
-               let timeEndRange = Range(match.range(at: 2),
+               let timeEndRange = Range(match.range(at: 3),
                                    in: string),
-               let linesRange = Range(match.range(at: 3),
+               let linesRange = Range(match.range(at: 5),
                                   in: string) {
                 let timeStart = string[timeStartRange].convertToTimeInterval()
                 let timeEnd = string[timeEndRange].convertToTimeInterval()
